@@ -1,0 +1,4 @@
+django-debug-toolbar~=4.4.6
+model-bakery~=1.18.2
+pytest~=8.3.2
+pytest-watch~=4.2.0
