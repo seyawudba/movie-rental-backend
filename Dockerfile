@@ -24,7 +24,7 @@ RUN pip install pipenv && \
     addgroup -g 1000 rental-django && \
     adduser \
             --disabled-password \
-            --no-create-home \ 
+            --no-create-home \
             --uid 1000 \
             -G rental-django \
             rental-user
