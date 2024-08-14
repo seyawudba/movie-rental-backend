@@ -1,0 +1,52 @@
+version: '3.9'
+
+services:
+  rental-django:
+    build:
+      args: 
+        - DEV=true
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/src/app/
+    # command:
+    #   - sh -c "python3 manage.py makemigrations && python3 manage.py runserver 0.0.0.0:8000 && python3 manage.py migrate"
+    depends_on:
+      postgres:
+          condition: service_healthy
+          restart: true
+      # caching:
+      #     condition: service_started
+
+  postgres:
+    image: postgres:12.19-bullseye
+    environment:
+      POSTGRES_USER: rental-user
+      POSTGRES_DB: rental-app-db
+      POSTGRES_PASSWORD: thisisamovierentalapplication
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rental-user"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      start_interval: 5s
+    ports:
+      - 5432:5432
+    volumes:
+      - rental-postgresql:/var/lib/postgresql/data
+
+  # caching:
+  #   image: redis
+  #   volumes:
+  #     - ./data:data
+  #   ports:
+  #     - 6379:6379
+
+
+volumes:
+  rental-postgresql:
+
+
