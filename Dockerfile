@@ -14,12 +14,11 @@ COPY --chown=rental-user:rental-django . .
 
 ARG DEV=false
 
-RUN pip install pipenv && \
-    pip install psycopg2-binary && \
+RUN pip install psycopg2-binary && \
     python3.12 -m pip install --upgrade pip && \
     pip install -r requirements.txt && \
     if [ $DEV = "true" ]; \
-        then pipenv install --dev -r requirements-dev.txt; \
+        then pip install -r requirements-dev.txt; \
     fi && \
     addgroup -g 1000 rental-django && \
     adduser \
